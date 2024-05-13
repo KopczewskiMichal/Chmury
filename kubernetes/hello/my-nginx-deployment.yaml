@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mynginx-deployment
+  labels:
+    app: myapp
+    type: frontend
+ 
+spec:
+  template:
+    metadata:
+      name: my-nginx-pod
+      labels:
+        app: myapp
+        type: frontend
+    spec:
+      containers:
+        - name: my-nginx-container
+          image: nginx:alpine
+  replicas: 1
+  selector:[09:19] Jakub Neumann
+apiVersion: v1
+
+kind: Service 
+
+metadata:
+
+  name: my-nginx-nodeport
+
+spec:
+
+  type: NodePort
+
+  ports:
+
+    - port: 80
+
+      targetPort: 80
+
+      nodePort: 31000
+
+  selector:
+
+    app: myapp
+
+    type: frontend
+[09:20] Jakub Neumann
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+
+  name: mybackendlb-deployment
+
+  labels:
+
+    app: myapp
+
+    type: backend
+ 
+spec:
+
+  template:
+
+    metadata:
+
+      name: mybackendlb-pod
+
+      labels:
+
+        app: myapp
+
+        type: backend
+
+    spec:
+
+      containers:
+
+        - name: mybackendlb-container
+
+          image: kubaen/mybackenlb
+
+  replicas: 3
+
+  selector:
+
+    matchLabels:
+
+      app: myapp
+
+      type: backend
+    matchLabels:
+      app: myapp
+      type: frontend
