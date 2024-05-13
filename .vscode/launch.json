@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "name": "Docker Node.js Launch",
+      "type": "docker",
+      "request": "launch",
+      "preLaunchTask": "docker-run: debug",
+      "platform": "node",
+      "node": {
+        "package": "${workspaceFolder}/lab5/zad2/simpleServer/package.json",
+        "localRoot": "${workspaceFolder}/lab5/zad2/simpleServer"
+      }
+    }
+  ]
+}
