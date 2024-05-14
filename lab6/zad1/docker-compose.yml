@@ -1,0 +1,16 @@
+services:
+  mongodb:
+    image: mongo:4.1.13
+    ports:
+      - '27019:27017'
+    volumes:
+      - dbdata6:/data/db
+    networks:
+      - net_A
+
+volumes:
+  dbdata6:
+
+networks:
+  net_A:
+    driver: bridge
