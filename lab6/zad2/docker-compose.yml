@@ -1,0 +1,30 @@
+services:
+  mongodb:
+    image: mongo:4.1.13
+    ports:
+      - '27019:27017'
+    volumes:
+      - dbdata6:/data/db
+    networks:
+      - net_A
+
+  app:
+    image: chmury
+    container_name: server
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+    ports:
+      - 3003:3003
+    depends_on:
+      - mongodb
+    networks:
+      - net_A
+
+volumes:
+  dbdata6:
+
+networks:
+  net_A:
+    driver: bridge

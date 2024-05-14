@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=3.12-alpine
+ARG PYTHON_VERSION=3.10-alpine
 FROM python:${PYTHON_VERSION}
 
 # Keeps Python from generating .pyc files in the container
@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED=1
 # Install pip requirements
 COPY requirements.txt .
 # RUN python -m pip install -r requirements.txt
-RUN /usr/local/bin/python -m pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 WORKDIR /app
 COPY . /app
@@ -22,8 +22,8 @@ COPY . /app
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 # CMD ["python", "./app/index.py"]
-EXPOSE 3000
+EXPOSE 3003
 
 ENV FLASK_APP=app/app.py
-ENV FLASK_RUN_PORT=3000
+ENV FLASK_RUN_PORT=3003
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
