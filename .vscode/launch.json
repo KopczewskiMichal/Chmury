@@ -10,6 +10,21 @@
         "package": "${workspaceFolder}/lab5/zad2/simpleServer/package.json",
         "localRoot": "${workspaceFolder}/lab5/zad2/simpleServer"
       }
+    },
+    {
+      "name": "Docker: Python - Flask",
+      "type": "docker",
+      "request": "launch",
+      "preLaunchTask": "docker-run: debug",
+      "python": {
+        "pathMappings": [
+          {
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/app"
+          }
+        ],
+        "projectType": "flask"
+      }
     }
   ]
 }
