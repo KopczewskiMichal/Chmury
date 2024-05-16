@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app_b # Nazwa serwisu, używana jako DNS. NIE RUSZAĆ
+  labels:
+    app: combined-app  # Etykieta serwisu
+spec:
+  selector:
+    app: combined-app  # ? nwm
+  ports:
+  - name: app-b-port
+    port:  5002 # Port aplikacji NIEWYSTAWIONEJ
+    protocol: TCP
+    targetPort: 5002 
+  type: ClusterIP  # Typ usługi (dostępna wewnątrz klastra)
+
+---
+
+# Deployment usługi prywatnej
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2-deployment  
+  labels:
+    app: combined-app  
+    app-name: app2 
+spec:
+  replicas: 2  
+  selector:
+    matchLabels:
+      app: combined-app  
+      app-name: app2  
+  template:
+    metadata:
+      labels:
+        app: combined-app  
+        app-name: app2  
+    spec:
+      containers:
+      - name: app2-container  
+        image: mkopczewski/app-b-image
+        ports:
+        - containerPort: 5002
+          protocol: TCP
+        resources:
+          limits:
+            memory: "100Mi"
+            cpu: "100m"
