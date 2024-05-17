@@ -7,7 +7,8 @@ def get_users():
     URL = "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=political,racist,sexist&type=single"
     r = requests.get(url = URL)
     data = r.json()
-    return data["joke"]
+    # return data["joke"]
+    return "Siema, wszystko działa poprawnie"
 
 
 @app.route('/', methods=['GET'])

@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/jokes', methods=['GET'])
 def get_users():
-    URL = "http://app_b:5002/joke"
+    URL = "http://service-b:5002/jokes"
     r = requests.get(url = URL)
     # data = r.json()
     # return data["joke"]

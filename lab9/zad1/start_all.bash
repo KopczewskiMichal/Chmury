@@ -3,8 +3,8 @@ kubectl scale deployment --all --replicas=0
 kubectl delete pods --all
 kubectl delete service --all
 
-kubectl apply -f service_b.yaml
 kubectl apply -f service_a.yaml
+kubectl apply -f service_b.yaml
 
 
 sleep 10
