@@ -9,9 +9,12 @@ spec:
     app: combined-app  # ? nwm
   ports:
   - name: app-b-port
+    protocol: TCP
     port:  5002 # Port aplikacji NIEWYSTAWIONEJ
     targetPort: 5002 
-  type: ClusterIP  # Typ usługi (dostępna wewnątrz klastra)
+    # nodePort: 30080 #? chyba wewnątrz klastra
+  # type: ClusterIP  # Typ usługi (dostępna wewnątrz klastra)
+  type: NodePort  
 
 ---
 
