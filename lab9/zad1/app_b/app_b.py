@@ -7,17 +7,16 @@ def get_users():
     URL = "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=political,racist,sexist&type=single"
     r = requests.get(url = URL)
     data = r.json()
-    # return data["joke"]
-    return "Siema, wszystko działa poprawnie"
-
+    # return "Siema, wszystko działa poprawnie"
+    print(data["joke"])
+    return data
 
 @app.route('/', methods=['GET'])
 def test_enpoint():
-    return "Server działa poprawnie.\nŻarty dostępne na endpointcie /jokes"
+    return "Serwis B działa poprawnie\nPowodzenia w dostaniu się do niego przez serwis A"
 
 if __name__ == '__main__':
     app.run(debug=True)
 
 
-# Z API tego mikroserwisu korzysta tylko mikroserwis a
 

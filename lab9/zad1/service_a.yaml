@@ -26,7 +26,7 @@ metadata:
     app: combined-app  
     app-name: app1  
 spec:
-  replicas: 2
+  replicas: 1  # ! pozmieniać na 2
   selector:
     matchLabels:
       app: combined-app  # Selector do podów zarządzanych przez ten deployment

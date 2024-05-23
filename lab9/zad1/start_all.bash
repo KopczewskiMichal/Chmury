@@ -7,7 +7,8 @@ kubectl apply -f service_a.yaml
 kubectl apply -f service_b.yaml
 
 
-sleep 10
+sleep 5
 kubectl get services
 kubectl get pods
 kubectl port-forward service/service-a 5001:80 &
+kubectl port-forward service/service-b 5002:5002 &
