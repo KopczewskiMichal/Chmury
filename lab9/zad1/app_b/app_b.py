@@ -3,13 +3,12 @@ import requests
 app = Flask(__name__)
 
 @app.route('/jokes', methods=['GET'])
-def get_users():
+def get_jokes():
     URL = "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=political,racist,sexist&type=single"
     r = requests.get(url = URL)
+    print(r)
     data = r.json()
-    # return "Siema, wszystko działa poprawnie"
-    print(data["joke"])
-    return data
+    return data["joke"]
 
 @app.route('/', methods=['GET'])
 def test_enpoint():
@@ -17,6 +16,5 @@ def test_enpoint():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 
 
