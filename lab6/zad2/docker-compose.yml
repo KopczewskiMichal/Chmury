@@ -1,0 +1,29 @@
+services:
+  app:
+    image: app
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - net_A
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: myMongo
+    image: mongo:latest
+    volumes:
+      - dbdata1:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - net_A
+
+networks:
+  net_A:
+    driver: bridge
+
+volumes:
+  dbdata1:
