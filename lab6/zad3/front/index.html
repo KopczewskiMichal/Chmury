@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fetch Data with Axios</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Fetch Data with Fetch API</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
             background-color: #f0f0f0;
         }
         #container {
@@ -29,7 +27,7 @@
             color: #333;
         }
         ul {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
         }
         li {
@@ -47,28 +45,16 @@
         <div id="data">Loading data...</div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            axios.get('http://app:3000/')
-                .then(response => {
-                    const data = response.data;
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('http://app:3000/')
+                .then(response => response.ok ? response.json() : Promise.reject('Network response was not ok'))
+                .then(data => {
                     const dataContainer = document.getElementById('data');
-                    dataContainer.innerHTML = '';
-
-                    if (data.length > 0) {
-                        const list = document.createElement('ul');
-                        data.forEach(item => {
-                            const listItem = document.createElement('li');
-                            listItem.textContent = JSON.stringify(item);
-                            list.appendChild(listItem);
-                        });
-                        dataContainer.appendChild(list);
-                    } else {
-                        dataContainer.textContent = 'No data found';
-                    }
+                    dataContainer.innerHTML = data.length ? '<ul>' + data.map(item => `<li>${JSON.stringify(item)}</li>`).join('') + '</ul>' : 'No data found';
                 })
                 .catch(error => {
-                    document.getElementById('data').textContent = 'Error loading data';
                     console.error('Error:', error);
+                    document.getElementById('data').textContent = 'Error loading data';
                 });
         });
     </script>

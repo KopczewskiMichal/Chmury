@@ -1,6 +1,7 @@
 services:
   app:
     image: app
+    container_name: app
     build:
       context: ./app
       dockerfile: Dockerfile
@@ -22,6 +23,7 @@ services:
       - "80:80"
     networks:
       - frontend_network
+      - backend_network
     
 
   mongo:
