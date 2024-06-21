@@ -13,7 +13,7 @@ spec:
     port: 5000
     protocol: TCP
     targetPort: 5000
-    nodePort: 30000  # Wybierz odpowiedni numer portu na węźle
+    nodePort: 30000
   type: NodePort
 
 ---
@@ -63,7 +63,7 @@ spec:
     protocol: TCP
     port: 3000
     targetPort: 3000
-    nodePort: 31000  # Wybierz odpowiedni numer portu na węźle
+    nodePort: 31000
   type: NodePort
 
 ---
@@ -92,6 +92,12 @@ spec:
         ports:
         - containerPort: 3000
           protocol: TCP
+        env:
+          - name: MONGO_URI
+            valueFrom:
+              configMapKeyRef:
+                name: mongodb-config
+                key: mongo-uri
         resources:
           limits:
             memory: "1Gi"
@@ -153,4 +159,3 @@ spec:
         - name: mongodb-data
           persistentVolumeClaim:
             claimName: mongodb-pvc
-
