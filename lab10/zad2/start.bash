@@ -1,5 +1,6 @@
 ./stop_production.bash
 ./build.bash
+kubectl apply -f mongodb-secret.yaml
 kubectl apply -f main.yaml
 sleep 10
 kubectl port-forward deployment.apps/app-a-deployment 5000:5000 &

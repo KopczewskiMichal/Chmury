@@ -108,7 +108,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: "2Gi"  # Poprawiona jednostka na MiB
+      storage: "2Gi"
 
 ---
 apiVersion: apps/v1
@@ -128,9 +128,20 @@ spec:
     spec:
       containers:
         - name: mongodb
-          image: mongo:latest  
+          image: mongo:latest
           ports:
             - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongo-root-username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongo-root-password
           resources:
             limits:
               memory: "2Gi"
@@ -142,3 +153,4 @@ spec:
         - name: mongodb-data
           persistentVolumeClaim:
             claimName: mongodb-pvc
+
