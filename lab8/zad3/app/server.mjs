@@ -6,25 +6,21 @@ import express from 'express';
 const app = express();
 const port = 3000;
 
-// Konfiguracja klienta Redis z ustawionym hasłem
 const redisClient = createClient({
-  url: 'redis://redis:6379', // Ustawienia połączenia z Redis
-  password: 'your_redis_password_here' // Hasło do Redis
+  url: 'redis://redis:6379',
+  password: 'admin' 
 });
 
 redisClient.on('error', err => console.log('Błąd klienta Redis', err));
 
-// Połączenie z bazą Redis
 redisClient.on('connect', () => {
   console.log('Połączono z Redis');
 });
 
-// Połączenie z bazą PostgreSQL
 const sql = postgres('postgres://postgres:example@db:5432/postgres');
 
 app.use(bodyParser.json());
 
-// Dodawanie wartości do Redis
 app.post('/add', async (req, res) => {
   const { key, value } = req.body;
   if (!key || !value) {
