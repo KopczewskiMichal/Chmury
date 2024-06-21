@@ -1,99 +1,93 @@
-# ! aplikacja A
+# Aplikacja A - Service i Deployment
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-a  # Nazwa serwisu
+  name: service-a
   labels:
-    app: combined-app  # Etykieta serwisu
+    app: combined-app
 spec:
   selector:
     app: combined-app
   ports:
   - name: app1-port
-    port: 5000  # Port aplikacji wystawionej na świat
+    port: 5000
     protocol: TCP
-    targetPort: 5000  # Port w kontenerze
- 
-  type: LoadBalancer
+    targetPort: 5000
+    nodePort: 30000  # Wybierz odpowiedni numer portu na węźle
+  type: NodePort
 
 ---
-
-# Deployment wystawionej na świat usługi a
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app-a-deployment
   labels:
-    app: combined-app  
-    app-name: app1  
+    app: combined-app
+    app-name: app1
 spec:
-  replicas: 1  # ! docelowo 3
+  replicas: 1
   selector:
     matchLabels:
-      app: combined-app  # Selector do podów zarządzanych przez ten deployment
-      app-name: app1  # Selector dla pierwszej aplikacji
+      app: combined-app
+      app-name: app1
   template:
     metadata:
       labels:
-        app: combined-app  # Etykieta przypisana do szablonu poda
-        app-name: app1  # Etykieta przypisana do pierwszej aplikacji
+        app: combined-app
+        app-name: app1
     spec:
       containers:
-      - name: app1-container  
+      - name: app1-container
         image: mkopczewski/app-a-image
         ports:
         - containerPort: 5000
-          protocol: TCP  
+          protocol: TCP
         resources:
           limits:
             memory: "500Mi"
             cpu: "500m"
 
 ---
-# ! aplikacja B niewystawiona na świat
+# Aplikacja B - Service i Deployment
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-b # Nazwa serwisu, używana jako DNS. NIE RUSZAĆ
+  name: service-b
   labels:
-    app: combined-app  # Etykieta serwisu
+    app: combined-app
 spec:
   selector:
-    app: combined-app  # ? nwm
+    app: combined-app
   ports:
   - name: app-b-port
     protocol: TCP
-    port:  3000 # Port aplikacji NIEWYSTAWIONEJ
-    targetPort: 3000 
-    # nodePort: 30080 # chyba wewnątrz klastra
-  # type: ClusterIP  # Typ usługi (dostępna wewnątrz klastra)
-  # type: NodePort  
-  type: LoadBalancer  
+    port: 3000
+    targetPort: 3000
+    nodePort: 31000  # Wybierz odpowiedni numer portu na węźle
+  type: NodePort
 
 ---
-
-# Deployment usługi prywatnej
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-b-deployment  
+  name: app-b-deployment
   labels:
-    app: combined-app  
-    app-name: app2 
+    app: combined-app
+    app-name: app2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: combined-app  
-      app-name: app2  
+      app: combined-app
+      app-name: app2
   template:
     metadata:
       labels:
-        app: combined-app  
-        app-name: app2  
+        app: combined-app
+        app-name: app2
     spec:
       containers:
-      - name: app2-container  
+      - name: app2-container
         image: mkopczewski/app-b-image
         ports:
         - containerPort: 3000
@@ -101,12 +95,10 @@ spec:
         resources:
           limits:
             memory: "1Gi"
-            cpu: "1000m"
+            cpu: "1"
 
-
---- 
-# ! MongoDB
-
+---
+# MongoDB - PersistentVolumeClaim i StatefulSet
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -142,7 +134,7 @@ spec:
           resources:
             limits:
               memory: "2Gi"
-              cpu: "2000m"
+              cpu: "2"
           volumeMounts:
             - name: mongodb-data
               mountPath: /data/db
@@ -150,4 +142,3 @@ spec:
         - name: mongodb-data
           persistentVolumeClaim:
             claimName: mongodb-pvc
-

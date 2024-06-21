@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
+import requests
 
 app = Flask(__name__)
 
@@ -34,4 +35,4 @@ def test_enpoint():
     return "Serwis B działa poprawnie\nPowodzenia w dostaniu się do niego przez serwis A"
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=3000)
+    app.run(debug=True)
